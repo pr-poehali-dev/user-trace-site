@@ -1,200 +1,180 @@
 import { useState } from "react";
-import CharacterCard from "@/components/CharacterCard";
-import CharacterModal from "@/components/CharacterModal";
+import FoodCard from "@/components/FoodCard";
 import Icon from "@/components/ui/icon";
 
-interface Character {
+interface Food {
   id: number;
   name: string;
   image: string;
   description: string;
-  biography: string;
-  personality: string;
-  abilities: string[];
-  quotes: string[];
+  emoji: string;
 }
 
 const Index = () => {
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null,
-  );
-
-  const characters: Character[] = [
+  const [foodItems, setFoodItems] = useState<Food[]>([
     {
       id: 1,
-      name: "Sans",
+      name: "Лососевые роллы",
       image:
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop",
-      description: "Ленивый скелет с чувством юмора",
-      biography:
-        "Sans — скелет, который живет в Сноудине со своим братом Папирусом. Он известен своими каламбурами, ленивым характером и загадочным прошлым. Работает часовым в лесу.",
-      personality:
-        "Расслабленный, остроумный, но может быть серьезным когда нужно. Любит каламбуры и кетчуп. Скрывает глубокие знания о временных линиях.",
-      abilities: [
-        "Телепортация",
-        "Кости-атаки",
-        "Гравитационная магия",
-        "Знание о временных линиях",
-      ],
-      quotes: [
-        "it's a beautiful day outside...",
-        "you're gonna have a bad time",
-        "nah, i'm rootin' for ya, kid",
-      ],
+        "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=300&h=300&fit=crop",
+      description: "Нежные роллы с свежим лососем",
+      emoji: "🍱",
     },
     {
       id: 2,
-      name: "Papyrus",
+      name: "Суши сет",
       image:
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=200&fit=crop",
-      description: "Энергичный скелет-мечтатель",
-      biography:
-        "Папирус — младший брат Санса, полный энергии и оптимизма. Мечтает стать частью Королевской Гвардии и поймать человека. Любит готовить спагетти.",
-      personality:
-        "Энергичный, добрый, наивный, но решительный. Верит в лучшее в каждом. Обожает головоломки и спагетти.",
-      abilities: [
-        "Костяная магия",
-        "Создание головоломок",
-        "Синие атаки",
-        "Кулинария",
-      ],
-      quotes: ["NYEH HEH HEH!", "I BELIEVE IN YOU!", "WOWIE!!!"],
+        "https://images.unsplash.com/photo-1553621042-f6e147245754?w=300&h=300&fit=crop",
+      description: "Ассорти из лучших суши",
+      emoji: "🍣",
     },
     {
       id: 3,
-      name: "Undyne",
+      name: "Рамен",
       image:
-        "https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?w=200&h=200&fit=crop",
-      description: "Капитан Королевской Гвардии",
-      biography:
-        "Ундайн — рыба-воин, возглавляющая Королевскую Гвардию. Яростно защищает монстров и мечтает освободить их из Подземелья. Обучена Гирсоном боевым искусствам.",
-      personality:
-        "Храбрая, горячая, преданная. Может быть агрессивной, но имеет доброе сердце. Любит аниме и готовить.",
-      abilities: [
-        "Копья энергии",
-        "Невероятная сила",
-        "Форма Undying",
-        "Лидерство",
-      ],
-      quotes: [
-        "NGAHHH!",
-        "I'll show you how determined monsters can be!",
-        "Fuhuhuhu!",
-      ],
+        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&h=300&fit=crop",
+      description: "Горячий японский суп с лапшой",
+      emoji: "🍜",
     },
     {
       id: 4,
-      name: "Alphys",
+      name: "Пицца Маргарита",
       image:
-        "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=200&h=200&fit=crop",
-      description: "Королевский ученый",
-      biography:
-        "Альфис — желтая ящерица, работающая королевским ученым. Изучает человеческие души и детерминацию. Скрывает темные секреты своих экспериментов.",
-      personality:
-        "Застенчивая, умная, но неуверенная в себе. Любит аниме и научную фантастику. Страдает от чувства вины.",
-      abilities: [
-        "Научные знания",
-        "Создание роботов",
-        "Изучение душ",
-        "Высокие технологии",
-      ],
-      quotes: [
-        "Oh my god!!!",
-        "I... I'm not a bad person!",
-        "Anime is real, right?!",
-      ],
+        "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop",
+      description: "Классическая итальянская пицца",
+      emoji: "🍕",
     },
     {
       id: 5,
-      name: "Toriel",
+      name: "Бургер",
       image:
-        "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=200&h=200&fit=crop",
-      description: "Хранительница Руин",
-      biography:
-        "Ториэль — коза-монстр, бывшая королева Подземелья. После трагедии с детьми ушла в Руины, где защищает упавших людей от опасностей Подземелья.",
-      personality:
-        "Материнская, добрая, защищающая. Любит печь пироги и читать. Может быть строгой когда нужно защитить.",
-      abilities: [
-        "Огненная магия",
-        "Целительство",
-        "Кулинария",
-        "Защитная магия",
-      ],
-      quotes: [
-        "My child...",
-        "I will protect you!",
-        "Would you like some pie?",
-      ],
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop",
+      description: "Сочный бургер с картофелем фри",
+      emoji: "🍔",
     },
     {
       id: 6,
-      name: "Asgore",
+      name: "Паста",
       image:
-        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200&h=200&fit=crop",
-      description: "Король монстров",
-      biography:
-        "Асгор — король всех монстров в Подземелье. После потери детей объявил войну людям. Несмотря на грозный вид, имеет доброе сердце и сожалеет о своих решениях.",
-      personality:
-        "Мудрый, меланхоличный, добрый в глубине души. Любит садоводство и чай. Несет бремя тяжелых решений.",
-      abilities: [
-        "Огненная магия",
-        "Трезубец",
-        "Королевская сила",
-        "Садоводство",
-      ],
-      quotes: [
-        "Howdy!",
-        "I so badly want to say, 'would you like a cup of tea?'",
-        "Please... live a happy life.",
-      ],
+        "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300&h=300&fit=crop",
+      description: "Домашняя паста с томатным соусом",
+      emoji: "🍝",
     },
     {
       id: 7,
-      name: "Flowey",
+      name: "Тако",
       image:
-        "https://images.unsplash.com/photo-1490736936276-05e53d88a8f6?w=200&h=200&fit=crop",
-      description: "Говорящий цветок",
-      biography:
-        "Флауи — говорящий цветок, первый встреченный персонаж. Скрывает темную тайну своего происхождения и истинную природу. Способен манипулировать файлами сохранения.",
-      personality:
-        "Манипулятивный, садистский, но глубоко травмированный. Потерял способность чувствовать любовь. Отчаянно ищет смысл существования.",
-      abilities: [
-        "Контроль сохранений",
-        "Пули-семена",
-        "Форма Omega",
-        "Манипуляции",
-      ],
-      quotes: [
-        "Howdy! I'm Flowey!",
-        "In this world, it's kill or BE killed!",
-        "I don't want to let go...",
-      ],
+        "https://images.unsplash.com/photo-1565299585323-38174c5200ed?w=300&h=300&fit=crop",
+      description: "Мексиканские тако с овощами",
+      emoji: "🌮",
     },
     {
       id: 8,
-      name: "Frisk",
+      name: "Димсамы",
       image:
-        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=200&h=200&fit=crop",
-      description: "Восьмой упавший человек",
-      biography:
-        "Фриск — человеческий ребенок, упавший в Подземелье. Обладает невероятной детерминацией, позволяющей возвращаться после смерти. Их выбор определяет судьбу всех монстров.",
-      personality:
-        "Молчаливый, решительный, сострадательный. Способен к милосердию или жестокости в зависимости от выбора игрока.",
-      abilities: ["Детерминация", "Возрождение", "ACT команды", "Сила воли"],
-      quotes: [
-        "...",
-        "*You are filled with determination*",
-        "*You feel your sins crawling on your back*",
-      ],
+        "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=300&h=300&fit=crop",
+      description: "Китайские паровые пельмени",
+      emoji: "🥟",
+    },
+  ]);
+
+  const allFoodOptions = [
+    {
+      name: "Филадельфия ролл",
+      image:
+        "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=300&h=300&fit=crop",
+      description: "Ролл с лососем и сыром",
+      emoji: "🍱",
+    },
+    {
+      name: "Калифорния ролл",
+      image:
+        "https://images.unsplash.com/photo-1553621042-f6e147245754?w=300&h=300&fit=crop",
+      description: "Ролл с крабом и авокадо",
+      emoji: "🍣",
+    },
+    {
+      name: "Темпура ролл",
+      image:
+        "https://images.unsplash.com/photo-1563612116625-3012372fccce?w=300&h=300&fit=crop",
+      description: "Хрустящий ролл в темпуре",
+      emoji: "🍤",
+    },
+    {
+      name: "Том ям",
+      image:
+        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300&h=300&fit=crop",
+      description: "Острый тайский суп",
+      emoji: "🍜",
+    },
+    {
+      name: "Фо бо",
+      image:
+        "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=300&h=300&fit=crop",
+      description: "Вьетнамский суп с говядиной",
+      emoji: "🥢",
+    },
+    {
+      name: "Пепперони пицца",
+      image:
+        "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop",
+      description: "Пицца с пепперони",
+      emoji: "🍕",
+    },
+    {
+      name: "Четыре сыра",
+      image:
+        "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=300&h=300&fit=crop",
+      description: "Пицца с четырьмя сырами",
+      emoji: "🧀",
+    },
+    {
+      name: "Чизбургер",
+      image:
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop",
+      description: "Бургер с расплавленным сыром",
+      emoji: "🍔",
+    },
+    {
+      name: "Вегги бургер",
+      image:
+        "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=300&h=300&fit=crop",
+      description: "Вегетарианский бургер",
+      emoji: "🥗",
+    },
+    {
+      name: "Карбонара",
+      image:
+        "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300&h=300&fit=crop",
+      description: "Паста с беконом и сыром",
+      emoji: "🍝",
+    },
+    {
+      name: "Болоньезе",
+      image:
+        "https://images.unsplash.com/photo-1572441713132-51c75654db73?w=300&h=300&fit=crop",
+      description: "Паста с мясным соусом",
+      emoji: "🍝",
     },
   ];
 
-  const handleCharacterClick = (character: Character) => {
-    setSelectedCharacter(character);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedCharacter(null);
+  const handleFoodClick = (foodId: number) => {
+    setFoodItems((prev) =>
+      prev.map((food) => {
+        if (food.id === foodId) {
+          const randomFood =
+            allFoodOptions[Math.floor(Math.random() * allFoodOptions.length)];
+          return {
+            ...food,
+            name: randomFood.name,
+            image: randomFood.image,
+            description: randomFood.description,
+            emoji: randomFood.emoji,
+          };
+        }
+        return food;
+      }),
+    );
   };
 
   return (
@@ -203,41 +183,31 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Icon name="Users" size={32} className="text-accent" />
-            <h1 className="text-2xl pixel-text text-accent">
-              * ПЕРСОНАЖИ UNDERTALE *
+            <Icon name="UtensilsCrossed" size={32} className="text-accent" />
+            <h1 className="text-2xl food-text text-accent">
+              🍣 ВКУСНАЯ ГАЛЕРЕЯ 🍜
             </h1>
-            <Icon name="Users" size={32} className="text-accent" />
+            <Icon name="UtensilsCrossed" size={32} className="text-accent" />
           </div>
           <p className="text-sm text-muted-foreground">
-            Нажмите на персонажа, чтобы узнать его историю
+            Нажмите на блюдо, чтобы оно сменилось на новое!
           </p>
         </div>
 
-        {/* Characters Grid */}
+        {/* Food Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {characters.map((character) => (
-            <CharacterCard
-              key={character.id}
-              character={character}
-              onClick={handleCharacterClick}
-            />
+          {foodItems.map((food) => (
+            <FoodCard key={food.id} food={food} onClick={handleFoodClick} />
           ))}
         </div>
 
         {/* Footer */}
         <div className="text-center mt-12 pt-8 border-t border-border">
-          <p className="text-xs text-muted-foreground pixel-text">
-            * Определение заполнено решимостью *
+          <p className="text-xs text-muted-foreground food-text">
+            🌟 Приятного аппетита! 🌟
           </p>
         </div>
       </div>
-
-      {/* Character Modal */}
-      <CharacterModal
-        character={selectedCharacter}
-        onClose={handleCloseModal}
-      />
     </div>
   );
 };

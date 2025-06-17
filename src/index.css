@@ -2,39 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
 @layer base {
   :root {
-    --background: 240 10% 12%;
-    --foreground: 45 100% 85%;
+    --background: 20 14% 4%;
+    --foreground: 39 100% 95%;
 
-    --card: 240 15% 18%;
-    --card-foreground: 45 100% 85%;
+    --card: 20 14% 8%;
+    --card-foreground: 39 100% 95%;
 
-    --popover: 240 15% 18%;
-    --popover-foreground: 45 100% 85%;
+    --popover: 20 14% 8%;
+    --popover-foreground: 39 100% 95%;
 
-    --primary: 262 80% 50%;
-    --primary-foreground: 45 100% 85%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 20 14% 4%;
 
-    --secondary: 210 100% 60%;
-    --secondary-foreground: 240 10% 12%;
+    --secondary: 39 100% 60%;
+    --secondary-foreground: 20 14% 4%;
 
-    --muted: 240 8% 25%;
-    --muted-foreground: 45 60% 70%;
+    --muted: 20 8% 20%;
+    --muted-foreground: 39 60% 70%;
 
-    --accent: 45 100% 60%;
-    --accent-foreground: 240 10% 12%;
+    --accent: 39 100% 65%;
+    --accent-foreground: 20 14% 4%;
 
     --destructive: 0 75% 60%;
-    --destructive-foreground: 45 100% 85%;
+    --destructive-foreground: 39 100% 95%;
 
-    --border: 240 8% 25%;
-    --input: 240 15% 18%;
-    --ring: 262 80% 50%;
+    --border: 20 8% 20%;
+    --input: 20 14% 8%;
+    --ring: 25 95% 53%;
 
-    --radius: 0.25rem;
+    --radius: 0.5rem;
   }
 }
 
@@ -45,12 +45,12 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Press Start 2P", monospace;
-    font-size: 12px;
-    line-height: 1.8;
+    font-family: "Nunito", sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
-  .undertale-border {
+  .food-border {
     border: 2px solid;
     border-image: linear-gradient(
         45deg,
@@ -59,27 +59,48 @@
         hsl(var(--accent))
       )
       1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 
-  .pixel-text {
+  .food-text {
     text-shadow:
       1px 1px 0 hsl(var(--primary)),
-      2px 2px 0 rgba(0, 0, 0, 0.3);
+      2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-weight: 600;
   }
 
-  .pixel-art {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  .food-rotate {
+    transition: transform 0.3s ease;
   }
 
-  .character-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+  .food-rotate:hover {
+    transform: scale(1.05) rotate(2deg);
   }
 
-  .character-modal {
-    backdrop-filter: blur(4px);
+  .food-image {
+    transition: transform 0.3s ease;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .food-image img {
+    transition: transform 0.3s ease;
+  }
+
+  .food-rotate:hover .food-image img {
+    transform: scale(1.1);
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
   }
 }
